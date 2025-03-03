@@ -1,19 +1,14 @@
-from pykkar import *
-from painter import paint_square
+#fail = open("test.txt", "r/w/a",)
+#file.read()
+#file.write()
+#file.close()
+import log_parser as logs
+import report_generator as generatereport
 
-# Создание мира
-create_world("""
-###########################
-#>     #      #     #     #
-#      #      #     #     #
-#                         #
-#      #      #     #     #
-#      #      #     #     #
-###########################
-""")
+log_file = "logs.txt"
 
-# Функция для покраски всех клеток
-paint_square()
-repeat_steps()
+result = logs.analyze_log(log_file)
+generatereport.generate_report(result)
+#generate_report()
 
-input("Нажмите Enter, чтобы завершить...")
+#with open("file.txt","r",encoding="utf-8") as file: 
