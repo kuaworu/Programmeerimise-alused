@@ -1,0 +1,56 @@
+#1
+#for i in range(1,10):
+    #print(i)
+#else:
+    #print(lõpp)
+
+#2
+#text = "Hello"
+#letter = "A"
+#print(letter.islower())
+#lentext = len(text)
+#for i in range(lentext):
+    #print(i)
+#for i in text:
+    #print(i)
+
+#for i in range text:
+    #print(i.islower())
+
+#3
+#myStr = "Hello its tom"
+#mytextlen = len(myStr)
+#middleSymbol = mytextlen//2
+#print(middleSymbol)
+#print(mytextlen)
+#print(myStr[6])
+#print(myStr[0:len(myStr)])
+#print(myStr[-1::-1])
+
+#4
+#ulesanne = "lol"
+#if ulesanne == ulesanne[::-1]:
+    #print("true, see on palindrom")
+#else:
+    #print("false, see ei palindrom")
+
+#5
+#text = "Анна и Александр пошли в парк. Они заметили, что в парке было много людей. Анна сказала, что ей нравится это место."
+#count_a = text.lower().count('а')
+#print(f"Количество букв 'а' в тексте: {count_a}")
+
+#6
+#sona = "hello tom"
+#sona = sona.replace("tom","***")
+#print(sona)
+
+#text = "чип и дейл — это персонажи, чип и дейл всегда помогают."
+#modified_text = text.replace("чип", "***").replace("дейл", "***")
+#print(modified_text)
+
+#7
+userinput = 5
+text = "чип и дейл — это персонажи, чип и дейл всегда помогают."
+for i in range(0,len (text),5):
+    v = i+5
+    print(text[i:v])
