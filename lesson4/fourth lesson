@@ -1,0 +1,66 @@
+#1
+#print("Hello CodeSandbox!")
+#userinput = ("введи текст")
+#userinput2 = ("буквц")
+#print(userinput)
+#userinput = replace(useriput2, "")
+#print(userinput)
+
+#mystr = "privet"
+    #print(mystr[])
+
+#2
+#userinput = input("sisesta tekst")
+#for i in range(len(userinput),-1,-1,-1):
+    #print(userinput[i])
+
+#names = ["Thomas","Viktor","Tailor","Anton"]
+#print("I am",names[0],"and my friend is", names[-1])
+#I = ["name",16,"hobby",3]
+
+#3 v1
+#num  = 0
+#while True:
+#usernum = int(input("write a num: "))
+#if usernum =="stop":
+    #break
+#if int(usernum) > num:
+    #num = int(usernum)
+    #print("bigger num is: ",num)
+
+#number = [5,15,13,17,8,1,99]
+#for i in range(0,len(number)):
+    #print(number[i])
+#if number[i]> num:
+    #print("bigger num is: ", num)
+
+#v2
+#number = [5,15,13,17,8,1,99]
+#num=0
+#for i in range(0,len(number)):
+#num = num + number[i]
+    #print("sum is: ", num)
+
+#v3
+#number = [5,15,13,17,8,1,99]
+#num=0
+#for i in range(0,len(number)):
+    #if number[i]%2 == 0:
+        #print("arv", number[i], "paris")
+    #else:
+        #print("arv", number[i], "paaritu")
+
+#4
+#example = "ma elan tallinnas"
+#print(example.split(","))
+
+#example = "ma elan tallinnas"
+#print(example.replace(" ", "\n"))
+
+
+example = "ma elan tallinnas"
+words = example.split()  # Разделяем строку на слова по пробелам
+
+# Проходим по каждому слову и выводим его на новой строке
+for word in words: #чтоб длч каждгго словп
+    print(word)
