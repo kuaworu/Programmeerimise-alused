@@ -1,0 +1,31 @@
+#temperatuuri = float(input("temperatuuri: "))
+#if temperatuuri < 0:
+    #print("Õues on külm, riietuge soojalt.")
+#elif 20 > temperatuuri > 0:
+    #print("jahe")
+#else: 
+    #print("soe")
+    
+i = 5
+while i>0:
+    print("hello")
+    i = i -1
+
+for i in range(5):
+    print("hello")
+
+result = 0
+i = 5
+while i > 0:
+    result = result + i
+    print("hello")
+    i = i - 1
+print("summa: ", result)
+
+
+number = float(input("number: "))
+number2 = float(input("number2: "))
+while number2 > number:
+    number = number
+    print(number)
+number = number + 1
