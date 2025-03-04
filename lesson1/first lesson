@@ -1,0 +1,18 @@
+num = 1 # int
+num2 = "2" #string 
+num3 = 1.3 #float 
+num4 = True #booleam
+num5 = False #booleam 
+print(num + num)
+print(num + 1.0)
+name = input("sisesta nimi: ")
+age = input("sisesta vanus:")
+birthdayplace = input("sisesta sünnipäev: ")
+birthday = input("sisesta sünnipäaev: ")
+gender = input("sisesta sugu: ")
+job = input("sisesta sinu töö: ")
+print("your name is: ", name, "your age is: ", age) 
+print("your from: ", birthdayPlace) 
+print("your birthday: ", when) 
+print("your gender: ", gender) 
+print("where job: ", job)
