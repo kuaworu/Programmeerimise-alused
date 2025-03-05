@@ -1,12 +1,15 @@
-def read_notes(filename="notes.txt"):
+ def read_notes(filename="notes.txt"): #чтения содержимого файла и возвращения его в виде списка заметок
     try:
         with open(filename, "r", encoding="utf-8") as file:
-            #читает всё содержимое файла в одну строку и удаляет пробелы или пустые строки в начале и конце
-            content = file.read().strip()
-            return content.split("---\n") if content else []
-    except FileNotFoundError:
-        return [] #если файл пустой, выдает пустой список
+            #удаляет пробелы и символы новой строки
+            content = file.read().strip() 
+            if content:
+                return content.split("---\n")
+            else:
+                return []  # если файл пустой, возвращаем пустой список
+    except FileNotFoundError: #Обрабатывает ошибку отсутствия файла
+        return []  # если файл не найден, возвращаем пустой список
 
-def write_notes(notes, filename="notes.txt"):
+def write_notes(notes, filename="notes.txt"): #Записывает список заметок в файл.
     with open(filename, "w", encoding="utf-8") as file:
         file.write("\n---\n".join(notes) + "\n")

@@ -23,3 +23,4 @@ def main():
             print("Vale valik!")  # сообщение об ошибке ввода
 
 main()
+
