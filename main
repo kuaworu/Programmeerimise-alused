@@ -1,0 +1,50 @@
+# main.py
+
+from grades_manager import add_student_grade, calculate_average_grade, find_student, view_all_grades
+
+def main():
+    while True:
+        print("\n1. Lisa õpilase hinne")
+        print("2. Vaata kõiki hinnetega õpilasi")
+        print("3. Otsi õpilast nime järgi")
+        print("4. Arvuta õpilase keskmine hinne")
+        print("5. Välju")
+        
+        choice = input("Valik: ")  # Запрашиваем выбор пользователя
+
+        if choice == "1":
+            name = input("Sisesta õpilase nimi: ")
+            grades_input = input("Sisesta hinded (eraldatud komaga): ")
+            grades = list(map(int, grades_input.split(",")))  # Преобразуем строку в список чисел
+            add_student_grade(name, grades)
+            print(f"Õpilase {name} hinded on lisatud!")
+
+        elif choice == "2":
+            all_grades = view_all_grades()
+            for entry in all_grades:
+                print(entry)
+        
+        elif choice == "3":
+            name = input("Sisesta õpilase nimi, keda otsida: ")
+            student_info = find_student(name)
+            if student_info:
+                print(student_info)
+            else:
+                print("Õpilast ei leitud.")
+        
+        elif choice == "4":
+            name = input("Sisesta õpilase nimi, kelle keskmine hinne arvutada: ")
+            average = calculate_average_grade(name)
+            if average is not None:
+                print(f"Õpilase {name} keskmine hinne on: {average:.2f}")
+            else:
+                print("Õpilast ei leitud.")
+        
+        elif choice == "5":
+            break  # Завершаем программу
+        
+        else:
+            print("Vale valik!")
+
+# Важно: просто вызываем main(), без использования if __name__ == "__main__":
+main()
