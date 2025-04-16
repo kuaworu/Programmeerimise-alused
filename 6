@@ -1,0 +1,68 @@
+import random
+
+class Level:
+    def __init__(self, id, initial_resources, min_threshold=10):
+        self.id = id
+        self.resources = initial_resources
+        self.min_threshold = min_threshold
+        self.alive = True
+
+    def receive_resources(self, amount):
+        self.resources += amount
+
+    def distribute(self):
+        if not self.alive:
+            return 0
+
+        print(f"\n[Level {self.id}] Resources: {self.resources}")
+        print("1: Keep all")
+        print("2: Share half")
+        print("3: Send all to next level")
+        choice = input("Choose action: ")
+
+        if choice == "1":
+            return 0
+        elif choice == "2":
+            shared = self.resources // 2
+            self.resources -= shared
+            return int(shared * 0.9)  # 10% loss
+        elif choice == "3":
+            sent = self.resources
+            self.resources = 0
+            return int(sent * 0.9)  # 10% loss
+        else:
+            print("Invalid choice. Keeping resources.")
+            return 0
+
+    def check_alive(self):
+        if self.resources < self.min_threshold:
+            self.alive = False
+            print(f"!!! Level {self.id} has fallen due to lack of resources.")
+
+class Game:
+    def __init__(self, num_levels=10):
+        self.levels = [Level(i + 1, random.randint(50, 100)) for i in range(num_levels)]
+
+    def play(self):
+        print("=== Hierarchical Resource Management Game ===")
+        round_num = 1
+        while any(level.alive for level in self.levels):
+            print(f"\n--- Round {round_num} ---")
+            for i in range(len(self.levels)):
+                if not self.levels[i].alive:
+                    continue
+                sent = self.levels[i].distribute()
+                if i + 1 < len(self.levels):
+                    self.levels[i + 1].receive_resources(sent)
+            for level in self.levels:
+                level.check_alive()
+            round_num += 1
+
+        print("\n=== Game Over ===")
+        for level in self.levels:
+            status = "Alive" if level.alive else "Fallen"
+            print(f"Level {level.id}: {status} (Resources: {level.resources})")
+
+# Запуск игры
+game = Game()
+game.play()
