@@ -1,0 +1,80 @@
+import random
+
+class Tase:
+    def __init__(self, id, min_threshold=10):
+        self.id = id
+        self.resources = 0
+        self.min_threshold = min_threshold
+        self.alive = True
+
+    def receive(self, amount):
+        self.resources += amount
+
+    def give(self):
+        if not self.alive:
+            return 0
+        print(f"\n[Tase {self.id}] Ressursid: {self.resources}")
+        print("1: Hoian kõik endale")
+        print("2: Jagan pooled")
+        print("3: Saadan kõik järgmisele tasemele")
+        choice = input("Vali tegevus: ")
+
+        if choice == "1":
+            return 0
+        elif choice == "2":
+            sent = self.resources // 2
+            self.resources -= sent
+            return int(sent * 0.9)  # kaob 10%
+        elif choice == "3":
+            sent = self.resources
+            self.resources = 0
+            return int(sent * 0.9)
+        else:
+            print("Vale valik. Hoian kõik.")
+            return 0
+
+    def check_alive(self):
+        if self.resources < self.min_threshold:
+            self.alive = False
+            print(f"!!! Tase {self.id} on välja langenud!")
+
+class Inimene:
+    def otsusta(self, tase):
+        return tase.give()
+
+class Platvorm:
+    def __init__(self, algne_ressurss=100, tasemete_arv=10):
+        self.resources = algne_ressurss
+        self.tasemed = [Tase(i + 1) for i in range(tasemete_arv)]
+        self.mangija = Inimene()
+
+    def jaga_alguses(self):
+        print(f"Platvormi algsed ressursid: {self.resources}")
+        jagatav = int(self.resources * 0.9)  # 10% kaob
+        self.resources = 0
+        self.tasemed[0].receive(jagatav)
+        print(f"Platvorm andis 90% ({jagatav}) esimesele tasemele.")
+
+    def kaivita(self):
+        self.jaga_alguses()
+        voor = 1
+        while any(t.alive for t in self.tasemed):
+            print(f"\n--- Voor {voor} ---")
+            for i, tase in enumerate(self.tasemed):
+                if not tase.alive:
+                    continue
+                sent = self.mangija.otsusta(tase)
+                if i + 1 < len(self.tasemed):
+                    self.tasemed[i + 1].receive(sent)
+            for tase in self.tasemed:
+                tase.check_alive()
+            voor += 1
+
+        print("\nMäng läbi!")
+        for t in self.tasemed:
+            staatus = "Elus" if t.alive else "Langenud"
+            print(f"Tase {t.id}: {staatus} (Ressursid: {t.resources})")
+
+# Käivita mäng
+mang = Platvorm()
+mang.kaivita()
