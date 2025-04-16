@@ -1,0 +1,100 @@
+class Tase:
+    def __init__(self, id, omanik, min_threshold=10):
+        self.id = id  # номер уровня
+        self.omanik = omanik  # владелец уровня (объект Inimene)
+        self.resources = 0  # количество ресурсов
+        self.min_threshold = min_threshold  # минимальный порог
+        self.alive = True  # жив ли уровень
+
+    def receive(self, amount):
+        self.resources += amount  # добавить ресурсы
+
+    def give(self):
+        if not self.alive:
+            return 0
+        print(f"\n[{self.omanik.nimi} - Tase {self.id}] Ressursid: {self.resources}")
+        print("1: Hoian kõik endale")
+        print("2: Jagan pooled")
+        print("3: Saadan kõik järgmisele tasemele")
+        choice = input(f"{self.omanik.nimi}, vali tegevus: ")
+
+        if choice == "1":
+            return 0
+        elif choice == "2":
+            sent = self.resources // 2
+            self.resources -= sent
+            return int(sent * 0.9)  # 10% kaob
+        elif choice == "3":
+            sent = self.resources
+            self.resources = 0
+            return int(sent * 0.9)
+        else:
+            print("Vale valik. Hoian kõik.")
+            return 0
+
+    def check_alive(self):
+        if self.resources < self.min_threshold:
+            self.alive = False
+            print(f"!!! {self.omanik.nimi} - Tase {self.id} on välja langenud!")
+
+
+class Inimene:
+    def __init__(self, nimi):
+        self.nimi = nimi  # имя игрока
+
+    def otsusta(self, tase):
+        return tase.give()  # принимает решение
+
+
+class Platvorm:
+    def __init__(self, algne_ressurss=100, tasemete_arv=10, mangijate_arv=2):
+        self.resources = algne_ressurss
+        self.mangijad = self.loo_mangijad(mangijate_arv)  # создаём игроков
+        self.tasemed = self.loo_tasemed(tasemete_arv)  # создаём уровни
+
+    def loo_mangijad(self, arv):
+        mangijad = []
+        for i in range(arv):
+            nimi = input(f"Sisesta mängija {i + 1} nimi: ")
+            mangijad.append(Inimene(nimi))
+        return mangijad
+
+    def loo_tasemed(self, tasemete_arv):
+        tasemed = []
+        for i in range(tasemete_arv):
+            omanik = self.mangijad[i % len(self.mangijad)]  # чередуем владельцев уровней
+            tasemed.append(Tase(i + 1, omanik))
+        return tasemed
+
+    def jaga_alguses(self):
+        print(f"Platvormi algsed ressursid: {self.resources}")
+        jagatav = int(self.resources * 0.9)
+        self.resources = 0
+        self.tasemed[0].receive(jagatav)
+        print(f"Platvorm andis 90% ({jagatav}) esimesele tasemele.")
+
+    def kaivita(self):
+        self.jaga_alguses()
+        voor = 1
+        while any(t.alive for t in self.tasemed):
+            print(f"\n--- Voor {voor} ---")
+            for i, tase in enumerate(self.tasemed):
+                if not tase.alive:
+                    continue
+                sent = tase.omanik.otsusta(tase)  # только владелец управляет
+                if i + 1 < len(self.tasemed):
+                    self.tasemed[i + 1].receive(sent)
+            for tase in self.tasemed:
+                tase.check_alive()
+            voor += 1
+
+        print("\nMäng läbi!")
+        for t in self.tasemed:
+            staatus = "Elus" if t.alive else "Langenud"
+            print(f"{t.omanik.nimi} - Tase {t.id}: {staatus} (Ressursid: {t.resources})")
+
+
+# Käivita mäng
+mangijate_arv = int(input("Mitu mängijat soovid? (nt 2): "))
+mang = Platvorm(mangijate_arv=mangijate_arv)
+mang.kaivita()
