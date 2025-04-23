@@ -1,0 +1,83 @@
+# #len(): считает длину списка, например, сколько легионеров
+# #f-строка: вставка переменных в текст через {переменная}
+# пример: f"{nimi} liitus leegioniga!" => mari liitus leegioniga!
+
+# #импорт_модуля_random: для случайного выбора
+import random
+
+# #список_логических_значений: для выбора True/False
+juhuslik_valik = [True, False]
+
+# #базовый_класс_человек: имя и сила
+class isik:
+    def __init__(self, nimi, joud):
+        self.nimi = nimi  # #имя
+        self.joud = joud  # #сила
+
+    # #метод_говорить: по умолчанию
+    def raagi(self):
+        print(f"{self.nimi} ütleb midagi...")  # #перевод: говорит что-то...
+
+# #класс_крестьянин: наследуется от isik
+class talupoeg(isik):
+    def __init__(self, nimi, joud):
+        super().__init__(nimi, joud)
+        # #готов_ли_присоединиться: случайно True/False
+        self.valmis_uhinema = random.choice(juhuslik_valik)
+
+    # #метод_говорить: фраза крестьянина
+    def raagi(self):
+        print(f"{self.nimi}: ma olen lihtsalt talupoeg...")  # #перевод: я всего лишь крестьянин...
+
+# #класс_гладиатор: наследуется от isik
+class gladiaator(isik):
+    def __init__(self, nimi, joud):
+        super().__init__(nimi, joud)
+        self.leegion = []  # #список_легионеров
+
+    # #метод_говорить: фраза гладиатора
+    def raagi(self):
+        print(f"{self.nimi}: rooma vajab mind.")  # #перевод: Рим нуждается во мне.
+
+    # #вербовка_крестьянина: если готов, сила > 5, легион < 10
+    def varba(self, talupoeg):
+        if talupoeg.valmis_uhinema and talupoeg.joud > 5 and len(self.leegion) < 10:
+            self.leegion.append(talupoeg)
+            print(f"{talupoeg.nimi} liitus leegioniga!")  # #перевод: присоединился к легиону!
+        else:
+            print(f"{talupoeg.nimi} ei liitu...")  # #перевод: не присоединился...
+
+    # #показать_легион: имена и сила легионеров
+    def naita_leegion(self):
+        print("leegionärid:")  # #перевод: легионеры:
+        for l in self.leegion:
+            print(f"- {l.nimi}, jõud: {l.joud}")  # #перевод: имя и сила
+
+    # #тренировка_легиона: +2 к силе всем
+    def treeni_leegion(self):
+        for l in self.leegion:
+            l.joud += 2
+        print("leegion treenitud!")  # #перевод: легион натренирован!
+
+# #список_деревень: каждая — список крестьян
+kylad = [
+    [talupoeg("jaan", 6), talupoeg("mari", 4), talupoeg("peeter", 7)],
+    [talupoeg("liis", 5), talupoeg("tonu", 8), talupoeg("maia", 3)],
+    [talupoeg("kati", 9), talupoeg("argo", 6), talupoeg("ella", 5), talupoeg("rein", 7)]
+]
+
+# #главный_герой: создаём гладиатора
+maximus = gladiaator("maximus", 10)
+
+# #обход_деревень: говорит и вербует
+for kyla in kylad:
+    print("\nновая деревня:")  # #новый список крестьян
+    for talup in kyla:
+        talup.raagi()  # #крестьянин говорит
+        maximus.varba(talup)  # #гладиатор пытается завербовать
+
+# #показать_результат: до и после тренировки
+print()
+maximus.naita_leegion()  # #показать легион
+maximus.treeni_leegion()  # #тренировка легиона
+maximus.naita_leegion()  # #ещё раз показать после тренировки
