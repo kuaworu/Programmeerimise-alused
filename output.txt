@@ -1,0 +1,19 @@
+Jon Snow - alive
+ - alive
+Daenerys Targaryen - dead
+ - alive
+Tyrion Lannister - alive
+ - alive
+Arya Stark - dead
+ - dead
+Sansa Stark - alive
+ - alive
+Cersei Lannister - alive
+ - dead
+Jaime Lannister - dead
+ - dead
+Bran Stark - dead
+ - alive
+Theon Greyjoy - alive
+ - alive
+Sandor Clegane - dead
