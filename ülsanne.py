@@ -1,23 +1,32 @@
-from bs4 import BeautifulSoup #возможность посмотреть код страницы
-import requests #качивает сайт
+from colorama import Fore
+import emoji
 
-#пользователь вводит ссылку сайта
-url = input('Sisesta URL (sisesta http:// või https://): ')
+#приветствуем цветным текстом
+print(Fore.CYAN + "Tere tulemast, kasutaja!" + Fore.RESET)
 
-#скачивает сайт по адресу, который ввел и сохраняем html-код в переменную
-response = requests.get(url)
-html = response.text
+#даем эмоциям цвет и смайлик
+meeleolud = {
+    'happy': (Fore.YELLOW, emoji.emojize(":grinning_face_with_smiling_eyes:")),
+    'sad': (Fore.BLUE, emoji.emojize(":disappointed_face:")),
+    'tired': (Fore.MAGENTA, emoji.emojize(":sleepy_face:")),
+    'excited': (Fore.GREEN, emoji.emojize(":star-struck:"))
+}
 
-#принимает html-код как структуру, чтобы могли искать h1, h2, h3...
-soup = BeautifulSoup(html, "html.parser")
+# Küsi kasutajalt meeleolu
+print("Vali oma meeleolu järgmiste valikute hulgast:") #выберите свое настроение из перечисленных
+for idx, mood in enumerate(meeleolud.keys(), start=1): #нумерует
+    print(f"{idx}. {mood.capitalize()}") #делает первую букву заглавной
 
-headings = []
+# Kasutaja sisend
+valik = int(input("Sisesta oma meeleolu number (1-4): ")) #пользователь вводит цифру от 1 до 4
 
-#цикл по цифрам от 1 до 6
-for i in range(1, 7):
-    for heading in soup.find_all(f"h{i}"):  #находит все заголовки h{i}
-        headings.append(heading.text.strip())  #добавляет в список
-        print(f"Leitud H{i}: {heading.text.strip()}")  #показывает заголовок в окне
+# Kuvame vastava värvi sõnumi ja emotikoni
+if 1 <= valik <= 4: #если номер в диапазоне от 1 до 4
+    meeleolu = list(meeleolud.keys())[valik - 1] #находит нужное настроение по номеру
+    color, emoticon = meeleolud[meeleolu] 
+    print(color + f"Sa oled {meeleolu}!" + Fore.RESET) #печатает: "ты - настроение" цветным текстом
+    print(f"Sõnum: {emoticon}") #печатает смайлик
+else:
+    print(Fore.RED + "Tundub, et sisestasite vale numbri! Palun valige number vahemikus 1-4." + Fore.RESET)
+    #если печатает что-то не то, выводит сообщение об ошибке красным цветом
 
-#считает, сколько заголовков с списке
-print("Leitud kokku {} pealkirja.".format(len(headings)))
